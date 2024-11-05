@@ -1,74 +1,68 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* TemperatureConverter.css */
 
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f7f7f7;
-}
-
-.App {
-  text-align: center;
+  font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-.App-header {
-  background-color: #282c34;
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  color: #61dafb;
-  margin-bottom: 20px;
-  font-size: 2rem;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #f0f4f8;
 }
 
 .converter-container {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-label {
-  font-size: 1.2rem;
-  color: white;
-  margin-bottom: 8px;
-}
-
-input {
-  padding: 10px;
-  font-size: 1.1rem;
+  background-color: #ffffff;
+  padding: 20px;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+input[type="number"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #f9fafb;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  font-size: 16px;
   border: none;
-  width: 200px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-input:focus {
-  outline: none;
-  border: 2px solid #61dafb;
+button:hover {
+  background-color: #0056b3;
 }
 
-@media (max-width: 600px) {
-  .App-header {
-    width: 90%;
-    padding: 20px;
-  }
-
-  input {
-    width: 100%;
-  }
+h2 {
+  font-size: 20px;
+  color: #007bff;
+  margin-top: 20px;
 }

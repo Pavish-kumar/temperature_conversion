@@ -1,66 +1,52 @@
-import React, { useState } from 'react';
-import './App.css'; 
-function App() {
-  const [celsius, setCelsius] = useState('');
-  const [fahrenheit, setFahrenheit] = useState('');
+import React, { useState, useEffect } from 'react';
+import { io } from 'socket.io-client';
+import './App.css';
+const socket = io("http://127.0.0.1:5000");  // Connect to the WebSocket server
 
-  const convertToFahrenheit = (celsius) => {
-    return (celsius * 9/5) + 32;
-  };
+const App = () => {
+    const [temperature, setTemperature] = useState('');
+    const [scale, setScale] = useState('C');
+    const [convertedTemperature, setConvertedTemperature] = useState(null);
 
-  const convertToCelsius = (fahrenheit) => {
-    return (fahrenheit - 32) * 5/9;
-  };
+    useEffect(() => {
+        // Listen for the conversion result from the server
+        socket.on('conversion_result', (data) => {
+            setConvertedTemperature(data.converted_temperature + " " + data.scale);
+        });
 
-  const handleCelsiusChange = (e) => {
-    const value = e.target.value;
-    setCelsius(value);
-    if (value !== '') {
-      setFahrenheit(convertToFahrenheit(value).toFixed(2));
-    } else {
-      setFahrenheit('');
-    }
-  };
+        // Cleanup the event listener on component unmount
+        return () => {
+            socket.off('conversion_result');
+        };
+    }, []);
 
-  const handleFahrenheitChange = (e) => {
-    const value = e.target.value;
-    setFahrenheit(value);
-    if (value !== '') {
-      setCelsius(convertToCelsius(value).toFixed(2));
-    } else {
-      setCelsius('');
-    }
-  };
+    const handleConvert = () => {
+        socket.emit('convert_temperature', {
+            temperature: parseFloat(temperature),
+            scale: scale
+        });
+    };
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Temperature Converter</h1>
-        <div className="converter-container">
-          <div className="input-group">
-            <label htmlFor="celsius">Celsius</label>
+    return (
+        <div>
+            <h1>Temperature Converter</h1>
             <input
-              id="celsius"
-              type="number"
-              value={celsius}
-              onChange={handleCelsiusChange}
-              placeholder="Enter °C"
+                type="number"
+                value={temperature}
+                onChange={(e) => setTemperature(e.target.value)}
+                placeholder="Enter temperature"
             />
-          </div>
-          <div className="input-group">
-            <label htmlFor="fahrenheit">Fahrenheit</label>
-            <input
-              id="fahrenheit"
-              type="number"
-              value={fahrenheit}
-              onChange={handleFahrenheitChange}
-              placeholder="Enter °F"
-            />
-          </div>
+            <select value={scale} onChange={(e) => setScale(e.target.value)}>
+                <option value="C">Celsius</option>
+                <option value="F">Fahrenheit</option>
+            </select>
+            <button onClick={handleConvert}>Convert</button>
+
+            {convertedTemperature && (
+                <h2>Converted Temperature: {convertedTemperature}</h2>
+            )}
         </div>
-      </header>
-    </div>
-  );
-}
+    );
+};
 
 export default App;
