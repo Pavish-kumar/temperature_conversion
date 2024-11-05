@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { io } from 'socket.io-client';
 import './App.css';
-const socket = io("http://127.0.0.1:5000");  // Connect to the WebSocket server
-
+const socket = io("http://127.0.0.1:5000");
 const App = () => {
     const [temperature, setTemperature] = useState('');
     const [scale, setScale] = useState('C');
